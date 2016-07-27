@@ -1,15 +1,19 @@
 
 library(ff)
-options("fftempdir" = "C:/development/try-ff/ff-tmp")
+library(ffbase)
+options("fftempdir" = "C:/development/ff-nb-scripts/ff-tmp")
 options("ffbatchbytes" = 170634772 * 10)
 
 # open file connection
-filecon <- file("C:/development/try-ff/data/adult.txt")
+filecon <- file("C:/development/ff-nb-scripts/data/adult.txt")
 
 # import data
 system.time(
   df <- read.csv.ffdf(file = filecon, colClasses = NA, header = TRUE)
 )
+
+# save
+#ffsave(list = "df", file = "C:/development/income-ffdata/")
 
 ## is.na <-
 df[is.na(df[,1]),1] <- 0
@@ -27,9 +31,7 @@ for(i in 1:nrow(df)){
     newffcol[i,1] <- 1
   else
     newffcol[i,1] <- 0
-  
 }
-
 
 ## splitting for CV (try caret)
 library(caret)
@@ -38,11 +40,7 @@ train_idx <- caret::createDataPartition(as.ram(df$age), p = 0.7, list = FALSE)[,
 df_train <- ffdfindexget(df, train_idx)
 
 
-# save
-#ffsave(list = "df", file = "C:/development/income-ffdata/")
-
 ## which
-
 idx <- which(df[,"education"] == " Bachelors")
 
 df2 <- df[idx,] # data.frame in RAM, not ffdf
