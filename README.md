@@ -1,4 +1,4 @@
-# ff-nb-scripts
+# nb-scripts-ff
 ff (R package) notebooks and scripts
 
 What's here:
